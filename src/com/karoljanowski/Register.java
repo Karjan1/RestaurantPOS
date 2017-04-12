@@ -59,6 +59,8 @@ public class Register {
     public ArrayList<OrderPosition> getOrdersHistory() {
         return ordersHistory;
     }
+
+
 }
 
 

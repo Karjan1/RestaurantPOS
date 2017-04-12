@@ -38,4 +38,9 @@ public abstract class MenuPosition {
     public double getPriceLarge() {
         return priceLarge;
     }
+
+    @Override
+    public String toString() {
+        return super.toString();
+    }
 }

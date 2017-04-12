@@ -1,15 +1,17 @@
 package com.karoljanowski;
 
 /**
- * Created by Karol Janowski on 2017-04-12.
+ * Created by Karol Janowski on 2017-04-13.
  */
-public class pizzaToppings {
+public class Ingredient {
     private String name;
     private double priceFor1kg;
+    private double storedAmount;
 
-    public pizzaToppings(String name, double priceFor1kg) {
+    public Ingredient(String name, double priceFor1kg, double storedAmount) {
         this.name = name;
         this.priceFor1kg = priceFor1kg;
+        this.storedAmount = 0;
     }
 
     public String getName() {
@@ -20,7 +22,7 @@ public class pizzaToppings {
         return priceFor1kg;
     }
 
-    public void setPriceFor1kg(double priceFor1kg) {
-        this.priceFor1kg = priceFor1kg;
+    public double getStoredAmount() {
+        return storedAmount;
     }
 }

@@ -1,26 +1,37 @@
 package com.karoljanowski;
 
+import java.util.ArrayList;
+
 /**
  * Created by Karol Janowski on 2017-04-08.
  */
-public class Pizza extends AdditionsPizza{
+public class Pizza extends MenuPosition{
+
     private int index;
     private String name;
+    private ArrayList<Ingredient> ingredients;
     private double priceSmallPizza;
     private double priceBigPizza;
     private double priceGrandePizza;
 
-    public Pizza(int index, String name, double priceSmall, double priceMedium, double priceLarge, boolean sos, boolean ser, boolean parmezan, boolean bialaMozzarella, boolean gorgonzola, boolean tabasco, boolean pomidorkiKoktajlowe, boolean pepperoni, boolean bazylia, boolean pomidorySuszone, boolean rukola, boolean natkaPieyruszki, boolean awokado, boolean paprykaSlodka, boolean ananas, boolean brokuly, boolean kukurydza, boolean szpinak, boolean pomidor, boolean papryka, boolean oliwkiCzarne, boolean cebula, boolean pieczarki, boolean lososWedzony, boolean szynkaParmenska, boolean owoceMorza, boolean jajko, boolean kielbasa, boolean salami, boolean szynka, boolean bekon, boolean kurczak) {
-        super(index, name, priceSmall, priceMedium, priceLarge, sos, ser, parmezan, bialaMozzarella, gorgonzola, tabasco, pomidorkiKoktajlowe, pepperoni, bazylia, pomidorySuszone, rukola, natkaPieyruszki, awokado, paprykaSlodka, ananas, brokuly, kukurydza, szpinak, pomidor, papryka, oliwkiCzarne, cebula, pieczarki, lososWedzony, szynkaParmenska, owoceMorza, jajko, kielbasa, salami, szynka, bekon, kurczak);
-    this.index = index;
-    this.name = name;
-    this.priceSmallPizza = priceSmall;
-    this.priceBigPizza = priceMedium;
-    this.priceGrandePizza = priceLarge;
+    public Pizza(int index, String name, double priceSmall, double priceMedium, double priceLarge) {
+        super(index, name, priceSmall, priceMedium, priceLarge);
+        this.index = index;
+        this.name = name;
+        this.ingredients= new ArrayList<>();
+        this.priceSmallPizza = priceSmall;
+        this.priceBigPizza = priceMedium;
+        this.priceGrandePizza = priceLarge;
     }
 
-    public String getName() {
-        return name;
+    public boolean addIngredient(int i){
+        this.ingredients.add(AvailiblePizzaToppings.getAvailibleToppings().get(i));
+        System.out.println("Ingredient added");
+        return true;
+    }
+
+    public ArrayList<Ingredient> getIngredients() {
+        return ingredients;
     }
 
     public double getPriceSmallPizza() {
@@ -33,5 +44,15 @@ public class Pizza extends AdditionsPizza{
 
     public double getPriceGrandePizza() {
         return priceGrandePizza;
+    }
+
+    @Override
+    public String toString() {
+        System.out.println(name + " mala: " + priceSmallPizza + "zł, duza: " + priceBigPizza + "zł, grande: " + priceGrandePizza + "zł");
+        for (Ingredient ingre: ingredients){
+            System.out.println(ingre.getName());
+        }
+        System.out.println("--------------");
+        return super.toString();
     }
 }
