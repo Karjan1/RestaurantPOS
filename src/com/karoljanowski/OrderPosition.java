@@ -25,4 +25,8 @@ public class OrderPosition  {
     public MenuPosition getMenuPosition() {
         return menuPosition;
     }
+
+    public void increaseAmount(int i){
+        this.amount+=i;
+    }
 }

@@ -9,6 +9,12 @@ public class Main {
         Menu<Pizza> pizzaMenu = new Menu("Pizze");
         Menu<Drinks> drinksMenu = new Menu<>("Napoje");
 
+        Drinks cola = new Drinks(201,"coca-cola",4,6,8);
+        Drinks sprite = new Drinks(201,"sprite",4,6,8);
+
+        drinksMenu.addMenuPosition(cola);
+        drinksMenu.addMenuPosition(sprite);
+
         storage.addStoragePosition(new Ingredient("Ser",19.90, 0));
         storage.addStoragePosition(new Ingredient("Pulpa pomidorowa",19.90, 0));
         storage.addStoragePosition(new Ingredient("Szynka",14.90, 0));
@@ -47,16 +53,28 @@ public class Main {
         pizzaMenu.addMenuPosition(salame);
         pizzaMenu.addMenuPosition(vesuvio);
         pizzaMenu.addMenuPosition(parma);
-
+        pizzaMenu.addMenuPosition(new Pizza(105,"cappriciosa",10,30,50));
         margherita.toString();
         vesuvio.toString();
         salame.toString();
         parma.toString();
 
-        mainRegister.placeOrder(new OrderPosition(margherita,2,3));
+        mainRegister.placeOrder(new OrderPosition(sprite,1,5));
+        mainRegister.placeOrder(new OrderPosition(sprite,2,5));
+
+        mainRegister.placeOrder(new OrderPosition(salame,2,3));
         mainRegister.placeOrder(new OrderPosition(vesuvio,1,2));
+        mainRegister.placeOrder(new OrderPosition(parma,1,1));
+        mainRegister.placeOrder(new OrderPosition(parma,2,1));
         mainRegister.placeOrder(new OrderPosition(parma,3,1));
+        mainRegister.placeOrder(new OrderPosition(sprite,3,5));
+        mainRegister.placeOrder(new OrderPosition(sprite,2,5));
+        mainRegister.placeOrder(new OrderPosition(salame,1,2));
+        mainRegister.placeOrder(new OrderPosition(salame,3,2));
         System.out.println(mainRegister.getIncome());
+        mainRegister.printOrders();
+        mainRegister.printCombined();
+
 
 
     }

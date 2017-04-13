@@ -9,6 +9,8 @@ public class Register {
     private String name;
      private double income;
      private ArrayList<OrderPosition> ordersHistory = new ArrayList<>();
+     private ArrayList<OrderPosition> combinedOrders = new ArrayList<>();
+//     private ArrayList<Ingredient> usedIngredients;   NIE ZROBIONE. ILE KG PRODUKTOW ZUZYTO
 //     private ArrayList<OrderPosition> soldSummary = new ArrayList<>();   //FRAGMENT DO POPRAWY. JAK ZSUMOWAC SPRZEDAZ WSZYSTKICH IDENTYCZNYCH PRODUKTOW?
 
 
@@ -59,6 +61,128 @@ public class Register {
     public ArrayList<OrderPosition> getOrdersHistory() {
         return ordersHistory;
     }
+
+    public boolean combineOrders(){
+
+        for (OrderPosition order: this.ordersHistory){
+            boolean flag = false;
+            int size = order.getSize();
+            int amount = order.getAmount();
+            MenuPosition position = order.getMenuPosition();
+
+            for (OrderPosition aorder: combinedOrders){
+
+                if (size==aorder.getSize() && position==aorder.getMenuPosition()){
+                    aorder.increaseAmount(amount);
+                    flag=true;
+                }
+
+            }
+            if (!flag) {
+                combinedOrders.add(order);
+            }
+        }
+        return true;
+    }
+
+    public void printOrders(){
+        System.out.println("Lista zamowien:");
+        for (OrderPosition order: this.ordersHistory){
+            double price;
+            int size=order.getSize();
+            switch (size){
+                case 1:{
+                    price=order.getMenuPosition().getPriceSmall();
+                    break;
+                }
+                case 2:{
+                    price=order.getMenuPosition().getPriceMedium();
+                    break;
+                }
+                case 3:{
+                    price=order.getMenuPosition().getPriceLarge();
+                    break;
+                }
+                default: {
+                    price=0;
+                    System.out.println("Error. Print order znalazl zamowienie z niedozwolonym rozmiarem");
+                    break;
+                }
+            }
+            System.out.println(order.getMenuPosition().getName()
+                    + ", rozmiar: " + size
+                    + ", cena: " + price
+                    + "zl, ilosc: " + order.getAmount());
+        }
+        System.out.println("------------------------");
+    }
+
+    public void printCombined(){
+        combineOrders();
+        sortCombined();
+        System.out.println("Sprzedano:");
+        for (OrderPosition order: this.combinedOrders){
+            double price;
+            int size=order.getSize();
+            switch (size){
+                case 1:{
+                    price=order.getMenuPosition().getPriceSmall();
+                    break;
+                }
+                case 2:{
+                    price=order.getMenuPosition().getPriceMedium();
+                    break;
+                }
+                case 3:{
+                    price=order.getMenuPosition().getPriceLarge();
+                    break;
+                }
+                default: {
+                    price=0;
+                    System.out.println("Error. Print combined znalazl zamowienie z niedozwolonym rozmiarem");
+                    break;
+                }
+            }
+            System.out.println(order.getMenuPosition().getName()
+                    + ", rozmiar: " + size
+                    + ", cena: " + price
+                    + "zl, ilosc: " + order.getAmount());
+        }
+        System.out.println("------------------------");
+    }
+
+    public void sortCombined(){
+        boolean swapped = false;
+        OrderPosition temp;
+
+        for (int i=0; i<(combinedOrders.size()-1); i++ ){
+
+            swapped=false;
+            OrderPosition a = combinedOrders.get(i);
+            OrderPosition b = combinedOrders.get(i+1);
+
+            if (a.getMenuPosition().getIndex()>b.getMenuPosition().getIndex()){
+                temp = combinedOrders.get(i);
+                combinedOrders.remove(i);
+                combinedOrders.add(i,b);
+                combinedOrders.remove(i+1);
+                combinedOrders.add(i+1,temp);
+                swapped=true;
+            }
+            if (a.getMenuPosition().getIndex()==b.getMenuPosition().getIndex() && a.getSize()>b.getSize()){
+                temp = combinedOrders.get(i);
+                combinedOrders.remove(i);
+                combinedOrders.add(i,b);
+                combinedOrders.remove(i+1);
+                combinedOrders.add(i+1,temp);
+                swapped=true;
+            }
+            if (swapped){
+                i=-1;
+            }
+        }
+    }
+
 
 
 }
