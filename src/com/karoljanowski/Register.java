@@ -10,7 +10,7 @@ public class Register {
      private double income;
      private ArrayList<OrderPosition> ordersHistory = new ArrayList<>();
      private ArrayList<OrderPosition> combinedOrders = new ArrayList<>();
-//     private ArrayList<Ingredient> usedIngredients;   NIE ZROBIONE. ILE KG PRODUKTOW ZUZYTO
+//     private ArrayList<Ingredient> usedIngredients;   NIE ZROBIONE. ILE KG PRODUKTOW ZUZYTO-
 //     private ArrayList<OrderPosition> soldSummary = new ArrayList<>();   //FRAGMENT DO POPRAWY. JAK ZSUMOWAC SPRZEDAZ WSZYSTKICH IDENTYCZNYCH PRODUKTOW?
 
 
