@@ -1,29 +1,31 @@
 package com.karoljanowski;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Karol Janowski on 2017-04-12.
  */
-public class AvailiblePizzaToppings {
+public class  AvailiblePizzaToppings {
     private static String name = "Pizza Toppings";
-    private static ArrayList<Ingredient> availibleToppings = new ArrayList<>();
+    private static List<Storage.Ingredient> availibleToppings = new ArrayList<>();
 
-    public boolean addToppings(int i){
-        if (availibleToppings.contains(Storage.getStoredItems().get(i))){
-            System.out.println("Ingredient already in menu");
-            return false;
+    public static boolean addToppings(Storage storage, String name){
+        for (Storage.Ingredient ingredient : storage.getStoredItems()){
+            if(ingredient.getName().equalsIgnoreCase(name)){
+                availibleToppings.add(ingredient);
+                return true;
+            }
         }
-        availibleToppings.add(Storage.getStoredItems().get(i));
-        System.out.println("New pizza topping availible");
-        return true;
+        System.out.println("W magazynie nie ma: " + name);
+        return false;
     }
 
     public static String getName() {
         return name;
     }
 
-    public static ArrayList<Ingredient> getAvailibleToppings() {
+    public static List<Storage.Ingredient> getAvailibleToppings() {
         return availibleToppings;
     }
 }

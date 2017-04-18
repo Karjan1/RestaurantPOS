@@ -1,15 +1,15 @@
 package com.karoljanowski;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Karol Janowski on 2017-04-08.
  */
-public class Pizza extends MenuPosition{
+public class Pizza extends MenuPosition {
 
     private int index;
     private String name;
-    private ArrayList<Ingredient> ingredients;
+    private List<Storage.Ingredient> ingredients;
     private double priceSmallPizza;
     private double priceBigPizza;
     private double priceGrandePizza;
@@ -18,41 +18,36 @@ public class Pizza extends MenuPosition{
         super(index, name, priceSmall, priceMedium, priceLarge);
         this.index = index;
         this.name = name;
-        this.ingredients= new ArrayList<>();
         this.priceSmallPizza = priceSmall;
         this.priceBigPizza = priceMedium;
         this.priceGrandePizza = priceLarge;
+        this.ingredients = super.getIngredients();
     }
 
-    public boolean addIngredient(int i){
-        this.ingredients.add(AvailiblePizzaToppings.getAvailibleToppings().get(i));
-        System.out.println("Ingredient added");
-        return true;
+    public boolean addIngredient(String name){
+        for (Storage.Ingredient ingredient : AvailiblePizzaToppings.getAvailibleToppings()){
+            if(ingredient.getName().equalsIgnoreCase(name)){
+                this.ingredients.add(ingredient);
+                return true;
+            }
+        }
+        System.out.println("Nie serwujemy pizzy z:" + name);
+        return false;
     }
 
-    public ArrayList<Ingredient> getIngredients() {
-        return ingredients;
-    }
 
-    public double getPriceSmallPizza() {
-        return priceSmallPizza;
-    }
 
-    public double getPriceBigPizza() {
-        return priceBigPizza;
-    }
-
-    public double getPriceGrandePizza() {
-        return priceGrandePizza;
+    public int compareTo(Pizza pizza) {
+        return super.compareTo(pizza);
     }
 
     @Override
     public String toString() {
-        System.out.println(name + " mala: " + priceSmallPizza + "zł, duza: " + priceBigPizza + "zł, grande: " + priceGrandePizza + "zł");
-        for (Ingredient ingre: ingredients){
-            System.out.println(ingre.getName());
-        }
-        System.out.println("--------------");
-        return super.toString();
+        return "Pizza{" + name +
+                ", priceSmallPizza=" + priceSmallPizza +
+                ", priceBigPizza=" + priceBigPizza +
+                ", priceGrandePizza=" + priceGrandePizza +
+                "\nskladniki:" + ingredients.toString() +
+                '}';
     }
 }

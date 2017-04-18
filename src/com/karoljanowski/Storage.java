@@ -8,22 +8,66 @@ import java.util.ArrayList;
 public class Storage {
 
 
-    private static String name = "Main Storage";
-    private static ArrayList<Ingredient> storedItems = new ArrayList<>();
+    private  String name;
+    private  ArrayList<Ingredient> storedItems = new ArrayList<>();
 
-
-
-    public static boolean addStoragePosition(Ingredient ingredient){
-        if (storedItems.contains(ingredient)) {
-            System.out.println("Ingredient exists in storage");
-            return false;
-        }
-        storedItems.add(ingredient);
-        System.out.println("New ingredient in storage");
-        return true;
+    public Storage(String name) {
+        this.name = name;
     }
 
-    public static ArrayList<Ingredient> getStoredItems() {
+    public void addIngredient(String name, double price){
+        this.storedItems.add(new Ingredient(name,price));
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public ArrayList<Ingredient> getStoredItems() {
         return storedItems;
     }
+
+     class Ingredient{
+        String name;
+        double price;
+        double bought=0;
+        double used=0;
+
+        public Ingredient(String name, double price) {
+            this.name = name;
+            this.price = price;
+        }
+
+
+        public int compareTo(Ingredient ingredient) {
+            if (this.name.compareTo(ingredient.getName())==0){
+                Double price=this.price;
+                return price.compareTo(ingredient.getPrice());
+            }
+            return this.name.compareTo(ingredient.getName());
+
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public double getPrice() {
+            return price;
+        }
+
+        public double getBought() {
+            return bought;
+        }
+
+        public double getUsed() {
+            return used;
+        }
+
+         @Override
+         public String toString() {
+             return name;
+         }
+     }
+
 }

@@ -1,6 +1,7 @@
 package com.karoljanowski;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Karol Janowski on 2017-04-08.
@@ -8,11 +9,31 @@ import java.util.ArrayList;
 public class Register {
     private String name;
      private double income;
-     private ArrayList<OrderPosition> ordersHistory = new ArrayList<>();
-     private ArrayList<OrderPosition> combinedOrders = new ArrayList<>();
-//     private ArrayList<Ingredient> usedIngredients;   NIE ZROBIONE. ILE KG PRODUKTOW ZUZYTO-
-//     private ArrayList<OrderPosition> soldSummary = new ArrayList<>();   //FRAGMENT DO POPRAWY. JAK ZSUMOWAC SPRZEDAZ WSZYSTKICH IDENTYCZNYCH PRODUKTOW?
+     private List<OrderPosition> ordersHistory = new ArrayList<>();
+     private List<OrderPosition> combinedOrders = new ArrayList<>();
+     private ArrayList<Ingredient> usedIngredients;  // NIE ZROBIONE. ILE KG PRODUKTOW ZUZYTO-
 
+    private void countIngredientsUsage(){
+        usedIngredients = null;
+        for (OrderPosition orderPosition : combinedOrders){
+            MenuPosition menuPosition= orderPosition.getMenuPosition();
+            for (Ingredient ingredient : menuPosition.getIngredients()){
+                if (usedIngredients.contains(ingredient)) {
+                    ingredient.increaseUsed(orderPosition.getSize());
+                } else {
+                    usedIngredients.add(ingredient);
+                    ingredient.increaseUsed(orderPosition.getSize());
+                }
+            }
+        }
+    }
+
+    public void printIngredientUsage(){
+        countIngredientsUsage();
+        for (Ingredient ingredient : usedIngredients){
+            System.out.println(ingredient.getName() + " zuzyto: " + ingredient.getUsed());
+        }
+    }
 
 
     public Register(String name) {
@@ -58,7 +79,7 @@ public class Register {
         return income;
     }
 
-    public ArrayList<OrderPosition> getOrdersHistory() {
+    public List<OrderPosition> getOrdersHistory() {
         return ordersHistory;
     }
 
