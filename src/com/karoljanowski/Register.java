@@ -9,31 +9,59 @@ import java.util.List;
 public class Register {
     private String name;
      private double income;
-     private List<OrderPosition> ordersHistory = new ArrayList<>();
-     private List<OrderPosition> combinedOrders = new ArrayList<>();
-     private ArrayList<Ingredient> usedIngredients;  // NIE ZROBIONE. ILE KG PRODUKTOW ZUZYTO-
+     private List<Register.OrderPosition> ordersHistory = new ArrayList<>();
+     private List<Register.OrderPosition> combinedOrders = new ArrayList<>();
+     private List<Storage.Ingredient> usedIngredients;  // NIE ZROBIONE. ILE KG PRODUKTOW ZUZYTO-
 
-    private void countIngredientsUsage(){
-        usedIngredients = null;
-        for (OrderPosition orderPosition : combinedOrders){
-            MenuPosition menuPosition= orderPosition.getMenuPosition();
-            for (Ingredient ingredient : menuPosition.getIngredients()){
-                if (usedIngredients.contains(ingredient)) {
-                    ingredient.increaseUsed(orderPosition.getSize());
-                } else {
-                    usedIngredients.add(ingredient);
-                    ingredient.increaseUsed(orderPosition.getSize());
-                }
-            }
+//    private void countIngredientsUsage(){
+//        usedIngredients = null;
+//        for (OrderPosition orderPosition : combinedOrders){
+//            MenuPosition menuPosition= orderPosition.getMenuPosition();
+//            for (Storage.Ingredient ingredient : menuPosition.getIngredients()){
+//                if (usedIngredients.contains(ingredient)) {
+//                    ingredient.increaseUsed(orderPosition.getSize());
+//                } else {
+//                    usedIngredients.add(ingredient);
+//                    ingredient.increaseUsed(orderPosition.getSize());
+//                }
+//            }
+//        }
+//    }
+
+    public class OrderPosition  {
+        private int size;
+        private int amount;
+        private MenuPosition menuPosition;
+
+        public OrderPosition(MenuPosition menuPosition, int size, int amount) {
+            this.size = size;
+            this.amount = amount;
+            this.menuPosition = menuPosition;
+        }
+
+        public int getSize() {
+            return size;
+        }
+
+        public int getAmount() {
+            return amount;
+        }
+
+        public MenuPosition getMenuPosition() {
+            return menuPosition;
+        }
+
+        public void increaseAmount(int i){
+            this.amount+=i;
         }
     }
 
-    public void printIngredientUsage(){
-        countIngredientsUsage();
-        for (Ingredient ingredient : usedIngredients){
-            System.out.println(ingredient.getName() + " zuzyto: " + ingredient.getUsed());
-        }
-    }
+//    public void printIngredientUsage(){
+//        countIngredientsUsage();
+//        for (Ingredient ingredient : usedIngredients){
+//            System.out.println(ingredient.getName() + " zuzyto: " + ingredient.getUsed());
+//        }
+//    }
 
 
     public Register(String name) {
