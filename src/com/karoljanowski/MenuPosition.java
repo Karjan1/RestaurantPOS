@@ -25,6 +25,10 @@ public abstract class MenuPosition implements Comparable<MenuPosition> {
 
     }
 
+    public enum Size {
+        SMALL,MEDIUM,LARGE;
+    }
+
 
     public int compareTo(MenuPosition position) {
         Integer index=this.index;
@@ -33,6 +37,15 @@ public abstract class MenuPosition implements Comparable<MenuPosition> {
                 return this.name.compareTo(position.getName());
             }
         return comparator;
+    }
+
+    public boolean addIngredient(Storage storage,String name){
+        if (storage.getStoredItems().containsKey(name)){
+            this.ingredients.put(name,storage.getStoredItems().get(name));
+            return true;
+        }
+        System.out.println("W magazynie nie ma:" + name);
+        return false;
     }
 
     public int getIndex() {

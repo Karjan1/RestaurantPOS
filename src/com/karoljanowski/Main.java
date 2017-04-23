@@ -3,8 +3,22 @@ package com.karoljanowski;
 public class Main {
 
     public static void main(String[] args) {
+        Register mainRegister = new Register("Kasa główna");
         Storage storage = new Storage("Main storage");
         Menu<Pizza> pizzaMenu = new Menu<>("Pizze");
+        Menu<Drink> drinksMenu = new Menu<>("Napoje");
+
+        storage.addIngredient("Cola",5);
+        storage.addIngredient("Sprite",5);
+
+        Drink cola = new Drink(201,"Cola",1,3,5);
+        drinksMenu.addMenuPosition(cola);
+        cola.addIngredient(storage,"Cola");
+
+        Drink fanta = new Drink(201,"Fanta",1,3,5);
+        drinksMenu.addMenuPosition(fanta);
+        fanta.addIngredient(storage,"Fanta");
+
         storage.addIngredient("Ser",19.90);
         storage.addIngredient("Pieczarki",4.90);
         storage.addIngredient("Szynka",14.90);
@@ -42,9 +56,21 @@ public class Main {
         salame.addIngredient("Pomidory");
 
         System.out.println(margherita.toString());
-        System.out.println(salame.toString());
+
         System.out.println("---------------");
         System.out.println(pizzaMenu.toString());
+
+        Basket basket = new Basket();
+        basket.addToBasket(pizzaMenu,"Margherita", MenuPosition.Size.SMALL,2);
+        basket.addToBasket(pizzaMenu,"Salame", MenuPosition.Size.LARGE,1);
+        basket.addToBasket(drinksMenu,"Cola", MenuPosition.Size.SMALL,3);
+
+        System.out.println(basket.toString());
+        mainRegister.finalizeOrder(basket);
+        System.out.println(basket.toString());
+        System.out.println(mainRegister.toString());
+
+
 
     }
 //
