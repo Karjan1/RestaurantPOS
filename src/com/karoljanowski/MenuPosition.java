@@ -1,7 +1,7 @@
 package com.karoljanowski;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by Karol Janowski on 2017-04-10.
@@ -12,7 +12,7 @@ public abstract class MenuPosition implements Comparable<MenuPosition> {
     private double priceSmall;
     private double priceMedium;
     private double priceLarge;
-    private List<Storage.Ingredient> ingredients;
+    private Map<String,Storage.Ingredient> ingredients;
 
 
     public MenuPosition(int index, String name, double priceSmall, double priceMedium, double priceLarge) {
@@ -21,7 +21,7 @@ public abstract class MenuPosition implements Comparable<MenuPosition> {
         this.priceSmall = priceSmall;
         this.priceMedium = priceMedium;
         this.priceLarge = priceLarge;
-        this.ingredients = new ArrayList<>();
+        this.ingredients = new HashMap<>();
 
     }
 
@@ -57,7 +57,7 @@ public abstract class MenuPosition implements Comparable<MenuPosition> {
 
 
 
-    public List<Storage.Ingredient> getIngredients() {
+    public Map<String,Storage.Ingredient> getIngredients() {
         return ingredients;
     }
 

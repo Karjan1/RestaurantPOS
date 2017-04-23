@@ -1,21 +1,19 @@
 package com.karoljanowski;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by Karol Janowski on 2017-04-12.
  */
 public class  AvailiblePizzaToppings {
     private static String name = "Pizza Toppings";
-    private static List<Storage.Ingredient> availibleToppings = new ArrayList<>();
+    private static Map<String,Storage.Ingredient> availibleToppings = new HashMap<>();
 
     public static boolean addToppings(Storage storage, String name){
-        for (Storage.Ingredient ingredient : storage.getStoredItems()){
-            if(ingredient.getName().equalsIgnoreCase(name)){
-                availibleToppings.add(ingredient);
-                return true;
-            }
+        if (storage.getStoredItems().containsKey(name)) {
+            availibleToppings.put(name,storage.getStoredItems().get(name));
+            return true;
         }
         System.out.println("W magazynie nie ma: " + name);
         return false;
@@ -25,7 +23,7 @@ public class  AvailiblePizzaToppings {
         return name;
     }
 
-    public static List<Storage.Ingredient> getAvailibleToppings() {
+    public static Map<String,Storage.Ingredient> getAvailibleToppings() {
         return availibleToppings;
     }
 }

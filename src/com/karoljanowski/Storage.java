@@ -1,6 +1,7 @@
 package com.karoljanowski;
 
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by Karol Janowski on 2017-04-13.
@@ -9,22 +10,27 @@ public class Storage {
 
 
     private  String name;
-    private  ArrayList<Ingredient> storedItems = new ArrayList<>();
+    private Map<String,Ingredient> storedItems = new HashMap<>();
 
     public Storage(String name) {
         this.name = name;
     }
 
-    public void addIngredient(String name, double price){
-        this.storedItems.add(new Ingredient(name,price));
+    public boolean addIngredient(String name, double price){
+        if (this.storedItems.containsKey(name)){
+            System.out.println("Składnik o tej nazwie już istnieje.");
+            return false;
+        }
+        this.storedItems.put(name,new Ingredient(name,price));
+        return true;
     }
 
     public String getName() {
         return name;
     }
 
-    public ArrayList<Ingredient> getStoredItems() {
-        return storedItems;
+    public Map<String,Ingredient> getStoredItems() {
+        return (storedItems);
     }
 
      class Ingredient{
@@ -66,7 +72,7 @@ public class Storage {
 
          @Override
          public String toString() {
-             return name;
+             return name ;
          }
      }
 
