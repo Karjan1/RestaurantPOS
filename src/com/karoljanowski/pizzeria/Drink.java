@@ -1,4 +1,4 @@
-package com.karoljanowski;
+package com.karoljanowski.pizzeria;
 
 /**
  * Created by Karol Janowski on 2017-04-10.

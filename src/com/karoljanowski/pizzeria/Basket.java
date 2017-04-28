@@ -1,4 +1,4 @@
-package com.karoljanowski;
+package com.karoljanowski.pizzeria;
 
 import java.util.ArrayList;
 import java.util.List;

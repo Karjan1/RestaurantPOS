@@ -1,4 +1,4 @@
-package com.karoljanowski;
+package com.karoljanowski.pizzeria;
 
 import java.util.HashMap;
 import java.util.Map;

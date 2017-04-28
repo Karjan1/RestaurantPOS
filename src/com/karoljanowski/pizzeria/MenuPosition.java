@@ -1,4 +1,4 @@
-package com.karoljanowski;
+package com.karoljanowski.pizzeria;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -26,7 +26,7 @@ public abstract class MenuPosition implements Comparable<MenuPosition> {
     }
 
     public enum Size {
-        SMALL,MEDIUM,LARGE;
+        SMALL,MEDIUM,LARGE
     }
 
 
