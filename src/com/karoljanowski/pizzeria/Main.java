@@ -8,6 +8,26 @@ public class Main {
 
     public static void main(String[] args) {
         Datasource datasource = new Datasource();
+//        datasource.insertIngredient("Salami");
+//        datasource.insertIngredient("Szynka");
+//        datasource.insertIngredient("Pieczarki");
+//        datasource.insertClient();
+//        datasource.insertClient();
+//        datasource.insertClient();
+//        datasource.insertIngredientPurchases(1,15.9,2.5);
+//        datasource.insertIngredientPurchases(2,12.9,0.8);
+//        datasource.insertIngredientPurchases(3,5.9,0.5);
+//        datasource.insertMenuPosition("Margherita","Pizza",8,14,20);
+//        datasource.insertMenuPosition("Salame","Pizza",10,16,24);
+//        datasource.insertMenuPosition("Bolognese","Pasta",12);
+//        datasource.insertOrder(1);
+//        datasource.insertOrder(2);
+//        datasource.insertOrder(1);
+//        datasource.insertOrderLine(1,1,2,3);
+//        datasource.insertOrderLine(2,2,3,2);
+//        datasource.insertOrderLine(3,3,1,4);
+
+
 
 
 //        Register mainRegister = new Register("Kasa główna");

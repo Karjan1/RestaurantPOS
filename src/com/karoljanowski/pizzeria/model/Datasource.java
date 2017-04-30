@@ -1,15 +1,12 @@
 package com.karoljanowski.pizzeria.model;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 
 /**
  * Created by Karol Janowski on 2017-04-27.
  */
 public class Datasource {
-    public static final String DB_NAME = "music.db";
+    public static final String DB_NAME = "pizzeria.db";
     public static final String CONNECTION_STRING = "jdbc:sqlite:" + DB_NAME;
 
     private Connection conn;
@@ -43,13 +40,14 @@ public class Datasource {
     }
 
     public boolean createTables(){
-        open();//statement.execute("CREATE TABLE IF NOT EXISTS " + TABLE_STORAGES + " (" + COLUMN_STORAGE_ID +" INTEGER PRIMARY KEY AUTOINCREMENT, " + COLUMN_STORAGE_NAME + " TEXT)");
+        open();
         try {
             statement.execute("CREATE TABLE IF NOT EXISTS " + TABLE_CLIENTS + " (" + COLUMN_CLIENT_ID + " INTEGER PRIMARY KEY AUTOINCREMENT)");
-            statement.execute("CREATE TABLE IF NOT EXISTS " + TABLE_INGREDIENTS + " (" + COLUMN_INGREDIENT_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COLUMN_INGREDIENT_NAME + " TEXT, " + COLUMN_INGREDIENT_FORPIZZA + " TEXT," + COLUMN_INGREDIENT_FORPASTA + " TEXT," + COLUMN_INGREDIENT_FORDRINKS + " TEXT)");
-            statement.execute("CREATE TABLE IF NOT EXISTS " + TABLE_INGREDIENTPURCHASES + " (" + COLUMN_INGREDIENTPURCHASE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COLUMN_INGREDIENTPURCHASE_INGID + " INTEGER, " + COLUMN_INGREDIENTPURCHASE_DATE + " TEXT, " + COLUMN_INGREDIENTPURCHASE_AMOUNT + " REAL, " + COLUMN_INGREDIENTPURCHASE_PRICE + " REAL)");
-            statement.execute("CREATE TABLE IF NOT EXISTS " + TABLE_MENUPOSITIONS + " (" + COLUMN_MENUPOSITION_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COLUMN_MENUPOSITION_NAME + " TEXT, " + COLUMN_MENUPOSITION_TYPE + " TEXT, " + COLUMN_MENUPOSITION_PRICESMALL + " REAL, " + COLUMN_MENUPOSITION_PRICEMEDIUM + " REAL, " + COLUMN_MENUPOSITION_PRICELARGE + " REAL)" );
-            statement.execute("CREATE TABLE IF NOT EXISTS " + TABLE_ORDERS + " (" + COLUMN_ORDER_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COLUMN_ORDER_CLIENTID + " INTEGER, " + COLUMN_ORDER_DATE + " TEXT)");
+            statement.execute("CREATE TABLE IF NOT EXISTS " + TABLE_INGREDIENTS + " (" + COLUMN_INGREDIENT_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COLUMN_INGREDIENT_NAME + " TEXT NOT NULL, " + COLUMN_INGREDIENT_FORPIZZA + " BOOLEAN," + COLUMN_INGREDIENT_FORPASTA + " BOOLEAN," + COLUMN_INGREDIENT_FORDRINKS + " BOOLEAN)");
+            statement.execute("CREATE TABLE IF NOT EXISTS " + TABLE_INGREDIENTPURCHASES + " (" + COLUMN_INGREDIENTPURCHASE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COLUMN_INGREDIENTPURCHASE_INGID + " INTEGER NOT NULL, " + COLUMN_INGREDIENTPURCHASE_DATE + " TEXT, " + COLUMN_INGREDIENTPURCHASE_AMOUNT + " REAL NOT NULL, " + COLUMN_INGREDIENTPURCHASE_PRICE + " REAL NOT NULL)");
+            statement.execute("CREATE TABLE IF NOT EXISTS " + TABLE_MENUPOSITIONS + " (" + COLUMN_MENUPOSITION_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COLUMN_MENUPOSITION_NAME + " TEXT NOT NULL, " + COLUMN_MENUPOSITION_TYPE + " TEXT NOT NULL, " + COLUMN_MENUPOSITION_PRICESMALL + " REAL, " + COLUMN_MENUPOSITION_PRICEMEDIUM + " REAL, " + COLUMN_MENUPOSITION_PRICELARGE + " REAL)" );
+            statement.execute("CREATE TABLE IF NOT EXISTS " + TABLE_ORDERS + " (" + COLUMN_ORDER_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COLUMN_ORDER_CLIENTID + " INTEGER NOT NULL, " + COLUMN_ORDER_DATE + " TEXT)");
+            statement.execute("CREATE TABLE IF NOT EXISTS " + TABLE_ORDERLINES + " (" + COLUMN_ORDERLINE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COLUMN_ORDERLINE_ORDERID + " INTEGER NOT NULL, " +COLUMN_ORDERLINE_MENUPOSITIONID + " INTEGER NOT NULL, " + COLUMN_ORDERLINE_SIZE + " INTEGER, " + COLUMN_ORDERLINE_AMOUNT + " INTEGER)");
         } catch (SQLException e) {
             System.out.println("Error during table creation" + e.getMessage());
             e.printStackTrace();
@@ -95,7 +93,137 @@ public class Datasource {
     public static final String COLUMN_ORDERLINE_SIZE = "size";
     public static final String COLUMN_ORDERLINE_AMOUNT = "amount";
 
+    public boolean insertClient (){
+        open();
+        try {
+            PreparedStatement prepStat = conn.prepareStatement(
+                    "INSERT INTO " + TABLE_CLIENTS + " VALUES (NULL)");
+            prepStat.execute();
+        } catch (SQLException e) {
+            System.out.println("Client insert error");
+            e.printStackTrace();
+        }
+        close();
+        return true;
+    }
+    public boolean insertIngredient (String name){
+        open();
+        try {
+            PreparedStatement prepStat = conn.prepareStatement(
+                    "INSERT INTO " + TABLE_INGREDIENTS + " VALUES (NULL, ?, 0, 0, 0)");
+            prepStat.setString(1, name);
+            prepStat.execute();
+        } catch (SQLException e) {
+            System.out.println("Ingredient insert error");
+            e.printStackTrace();
+        }
+        close();
+        return true;
+    }
 
+    public boolean insertIngredientPurchases (int ingID, double price, double amount){
+        open();
+        try {
+            PreparedStatement prepStat = conn.prepareStatement(
+                    "INSERT INTO " + TABLE_INGREDIENTPURCHASES + " VALUES (NULL, ?, NULL ,? ,? )");
+            prepStat.setInt(1, ingID);
+            prepStat.setDouble(2, price);
+            prepStat.setDouble(3, amount);
+            prepStat.execute();
+        } catch (SQLException e) {
+            System.out.println("Ingredient purchase insert error");
+            e.printStackTrace();
+        }
+        close();
+        return true;
+    }
+
+    public boolean insertMenuPosition (String name, String type, double priceSmall, double priceMedium, double priceLarge){
+        open();
+        try {
+            PreparedStatement prepStat = conn.prepareStatement(
+                    "INSERT INTO " + TABLE_MENUPOSITIONS + " VALUES (NULL, ?, ?, ?, ?, ?)");
+            prepStat.setString(1, name);
+            prepStat.setString(2, type);
+            prepStat.setDouble(3, priceSmall);
+            prepStat.setDouble(4, priceMedium);
+            prepStat.setDouble(5, priceLarge);
+            prepStat.execute();
+        } catch (SQLException e) {
+            System.out.println("Menu position1 insert error");
+            e.printStackTrace();
+        }
+        close();
+        return true;
+    }
+
+    public boolean insertMenuPosition (String name, String type, double priceSmall, double priceMedium){
+        open();
+        try {
+            PreparedStatement prepStat = conn.prepareStatement(
+                    "INSERT INTO " + TABLE_MENUPOSITIONS + " VALUES (NULL, ?, ?, ?, ?, NULL)");
+            prepStat.setString(1, name);
+            prepStat.setString(2, type);
+            prepStat.setDouble(3, priceSmall);
+            prepStat.setDouble(4, priceMedium);
+            prepStat.execute();
+        } catch (SQLException e) {
+            System.out.println("Menu position2 insert error");
+            e.printStackTrace();
+        }
+        close();
+        return true;
+    }
+
+    public boolean insertMenuPosition (String name, String type, double priceSmall){
+        open();
+        try {
+            PreparedStatement prepStat = conn.prepareStatement(
+                    "INSERT INTO " + TABLE_MENUPOSITIONS + " VALUES (NULL, ?, ?, ?, NULL, NULL)");
+            prepStat.setString(1, name);
+            prepStat.setString(2, type);
+            prepStat.setDouble(3, priceSmall);
+            prepStat.execute();
+        } catch (SQLException e) {
+            System.out.println("Menu position3 insert error");
+            e.printStackTrace();
+        }
+        close();
+        return true;
+    }
+
+    public boolean insertOrder (int clientId){
+        open();
+        try {
+            PreparedStatement prepStat = conn.prepareStatement(
+                    "INSERT INTO " + TABLE_ORDERS + " VALUES (NULL, ?, NULL )");
+            prepStat.setInt(1, clientId);
+            prepStat.execute();
+        } catch (SQLException e) {
+            System.out.println("Order insert error");
+            e.printStackTrace();
+        }
+        close();
+        return true;
+    }
+
+    public boolean insertOrderLine (int orderID, int menuPosID, int size, int amount){
+        open();
+        try {
+            PreparedStatement prepStat = conn.prepareStatement(
+                    "INSERT INTO " + TABLE_ORDERLINES + " VALUES (NULL, ?, ? ,? ,?)");
+            prepStat.setInt(1, orderID);
+            prepStat.setInt(2, menuPosID);
+            prepStat.setInt(3, size);
+            prepStat.setInt(4, amount);
+            prepStat.execute();
+        } catch (SQLException e) {
+            System.out.println("OrderLine insert error");
+            e.printStackTrace();
+        }
+        close();
+        return true;
+    }
 //    public static final String TABLE_STORAGES = "storages";
 //    public static final String COLUMN_STORAGE_ID = "_id";
 //    public static final String COLUMN_STORAGE_NAME = "name";
