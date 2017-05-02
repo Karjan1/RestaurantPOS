@@ -4,10 +4,8 @@ import com.karoljanowski.pizzeria.model.Datasource;
 
 public class Main {
 
-
-
     public static void main(String[] args) {
-        Datasource datasource = new Datasource();
+        Datasource datasource = Datasource.getInstance();
 //        datasource.insertIngredient("Salami");
 //        datasource.insertIngredient("Szynka");
 //        datasource.insertIngredient("Pieczarki");

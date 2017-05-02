@@ -8,12 +8,18 @@ import java.sql.*;
 public class Datasource {
     public static final String DB_NAME = "pizzeria.db";
     public static final String CONNECTION_STRING = "jdbc:sqlite:" + DB_NAME;
+    private static Datasource instance = null;
+    protected Datasource(){} // Only to defeat instantiation
 
     private Connection conn;
     private Statement statement;
 
-    public Datasource() {
-        createTables();
+    public static Datasource getInstance() {
+        if (instance==null) {
+            instance = new Datasource();
+            instance.createTables();
+        }
+        return instance;
     }
 
 
